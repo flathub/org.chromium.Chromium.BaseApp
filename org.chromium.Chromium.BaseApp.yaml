@@ -54,6 +54,8 @@ modules:
   - name: krb5
     subdir: src
     config-opts:
+      - --localstatedir=/var/lib
+      - --sbindir=${FLATPAK_DEST}/bin
       - --disable-static
       - --disable-rpath
     sources:
@@ -69,6 +71,12 @@ modules:
         dest: src
         commands:
           - autoreconf -si
+    cleanup:
+      - /bin
+      - /lib/pkgconfig
+      - /share/et
+      - /share/examples
+      - /share/man
 
   - name: krb5-config
     buildsystem: simple
