@@ -16,6 +16,7 @@ modules:
       - /include
       - /lib/pkgconfig
       - /share/gir-1.0
+      - /lib/girepository-1.0
       - /share/man
     sources:
       - type: archive
