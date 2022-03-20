@@ -60,8 +60,8 @@ modules:
       - --disable-rpath
     sources:
       - type: archive
-        url: https://github.com/krb5/krb5/archive/refs/tags/krb5-1.19.2-final.tar.gz
-        sha256: 84a1dc720e436926359808cc62543946897bf797aba3588b373165f127532cd8
+        url: https://github.com/krb5/krb5/archive/refs/tags/krb5-1.19.3-final.tar.gz
+        sha256: 131890da54fff2ac339e93facf9d8067f7db53b15181f38104c0b56a6f2acdee
         x-checker-data:
           type: anitya
           project-id: 13287
