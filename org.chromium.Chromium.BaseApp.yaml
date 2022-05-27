@@ -31,8 +31,8 @@ modules:
       - install -Dm 755 modules/printbackends/libprintbackend-cups.so -t /app/lib/gtkmodules/3.0.0/printbackends/
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.33.tar.xz
-        sha256: 588b06522e25d1579e989b6f9d8a1bdbf2fe13cde01a04e904ff346a225e7801
+        url: https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.34.tar.xz
+        sha256: dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec
         x-checker-data:
           type: gnome
           name: gtk+
@@ -60,8 +60,8 @@ modules:
       - --disable-rpath
     sources:
       - type: archive
-        url: https://github.com/krb5/krb5/archive/refs/tags/krb5-1.19.3-final.tar.gz
-        sha256: 131890da54fff2ac339e93facf9d8067f7db53b15181f38104c0b56a6f2acdee
+        url: https://github.com/krb5/krb5/archive/refs/tags/krb5-1.20-final.tar.gz
+        sha256: cbbf7ff2fb25d44cf3ed6fee120c073cd291af2bdcc3f466433f0482e238fb59
         x-checker-data:
           type: anitya
           project-id: 13287
