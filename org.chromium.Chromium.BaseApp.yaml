@@ -23,33 +23,192 @@ modules:
         url: https://download.gnome.org/sources/libsecret/0.19/libsecret-0.19.1.tar.xz
         sha256: 8583e10179456ae2c83075d95455f156dc08db6278b32bf4bd61819335a30e3a
 
-  - name: gtk-cups-backend
-    buildsystem: meson
-    make-args: [modules/printbackends/libprintbackend-cups.so]
-    no-make-install: true
-    post-install:
-      - install -Dm 755 modules/printbackends/libprintbackend-cups.so -t /app/lib/gtkmodules/3.0.0/printbackends/
-    sources:
-      - type: archive
-        url: https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.34.tar.xz
-        sha256: dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec
-        x-checker-data:
-          type: gnome
-          name: gtk+
-          stable-only: true
-          versions:
-            <: '3.89'
-      # From https://gitlab.gnome.org/GNOME/gnome-build-meta/-/blob/master/files/gtk3-werror.patch
-      - type: patch
-        path: gtk3-werror.patch
-
-  - name: gtk-settings
+  - name: gtk4-settings
     buildsystem: simple
     build-commands:
-      - install -Dm 644 gtk-settings.ini /app/etc/xdg/gtk-3.0/settings.ini
+      - install -Dm 644 gtk-settings.ini /app/etc/xdg/gtk-4.0/settings.ini
     sources:
       - type: file
         path: gtk-settings.ini
+
+  - name: gtk4
+    buildsystem: meson
+    builddir: true
+    build-options:
+      cflags: -DG_DISABLE_CAST_CHECKS
+    build-commands:
+      # gtk4-update-icon-cache call in build-aux/meson/post-install.py needs an existing, writable hicolor theme folder
+      - install -dm755 ${FLATPAK_DEST}/share/icons/hicolor
+    config-opts:
+      - -Dx11-backend=true
+      - -Dwayland-backend=true
+      - -Dbroadway-backend=false
+      - -Dmedia-ffmpeg=disabled
+      - -Dmedia-gstreamer=disabled
+      - -Dprint-cups=enabled
+      - -Dcloudproviders=disabled
+      - -Dsysprof=disabled
+      - -Dtracker=disabled
+      - -Dcolord=disabled
+      - -Dgtk_doc=false
+      - -Dman-pages=false
+      - -Ddebug=false
+      - -Dintrospection=disabled
+      - -Ddemos=false
+      - -Dbuild-examples=false
+      - -Dbuild-tests=false
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/gtk/4.8/gtk-4.8.0.tar.xz
+        sha256: c8d6203437d1e359d83124dc591546d403f67e3b00544e53dd50a9baacdcbd7f
+        x-checker-data:
+          type: gnome
+          name: gtk
+          stable-only: true
+      - type: shell
+        commands:
+          - sed '/^printbackends_subdir/ s/gtk-4\.0/gtkmodules/' -i modules/printbackends/meson.build
+    cleanup:
+      - /bin
+      - /include
+      - /lib/pkgconfig
+      - /share/gettext
+      - /share/gtk-4.0/gtk4builder.rng
+      - /share/gtk-4.0/valgrind
+      - /share/icons
+    modules:
+      - name: graphene
+        buildsystem: meson
+        config-opts:
+          - -Dintrospection=disabled
+          - -Dtests=false
+          - -Dinstalled_tests=false
+        sources:
+          - type: archive
+            url: https://github.com/ebassi/graphene/archive/1.10.8/graphene-1.10.8.tar.gz
+            sha256: 922dc109d2dc5dc56617a29bd716c79dd84db31721a8493a13a5f79109a4a4ed
+            x-checker-data:
+              type: anitya
+              project-id: 12758
+              stable-only: true
+              url-template: https://github.com/ebassi/graphene/archive/$version/graphene-$version.tar.gz
+        cleanup:
+          - /include
+          - /lib/graphene-1.0
+          - /lib/pkgconfig
+      - name: pango
+        config-opts:
+          - --buildtype=release
+          - -Dgtk_doc=false
+          - -Dintrospection=disabled
+        buildsystem: meson
+        sources:
+          - type: archive
+            url: https://download.gnome.org/sources/pango/1.50/pango-1.50.9.tar.xz
+            sha256: 1b636aabf905130d806372136f5e137b6a27f26d47defd9240bf444f6a4fe610
+            x-checker-data:
+              type: gnome
+              name: pango
+              stable-only: true
+              versions:
+                <: '1.90'
+        cleanup:
+          - /bin
+          - /include
+          - /lib/pkgconfig
+          - /share/man
+
+  - name: fcitx5-gtk
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DGTK3_IM_MODULEDIR=${FLATPAK_DEST}/lib/gtkmodules/3.0.0/immodules
+      - -DGTK4_IM_MODULEDIR=${FLATPAK_DEST}/lib/gtkmodules/4.0.0/immodules
+      - -DENABLE_GIR=OFF
+      - -DENABLE_GTK2_IM_MODULE=OFF
+      - -DENABLE_GTK3_IM_MODULE=OFF
+      - -DENABLE_GTK4_IM_MODULE=ON
+      - -DENABLE_SNOOPER=ON
+    sources:
+      - type: archive
+        url: https://github.com/fcitx/fcitx5-gtk/archive/5.0.18/fcitx5-gtk-5.0.18.tar.gz
+        sha256: 69f455790d89e64c06ebc35bdcff4d540ee0dc839b40a0b493b4a97a6a18a460
+        x-checker-data:
+          type: anitya
+          project-id: 138235
+          stable-only: true
+          url-template: https://github.com/fcitx/fcitx5-gtk/archive/$version/fcitx5-gtk-$version.tar.gz
+    cleanup:
+      - /include
+      - /lib/cmake
+      - /lib/pkgconfig
+    modules:
+      - name: extra-cmake-modules
+        buildsystem: cmake
+        sources:
+          - type: archive
+            url: https://download.kde.org/stable/frameworks/5.89/extra-cmake-modules-5.89.0.tar.xz
+            sha256: 3dd7229a225923b8570a333ee6e4a07b0f5f700ea9538fdeb22cc3cbba69f02f
+        cleanup:
+          - '*'
+
+  - name: ibus-gtk
+    config-opts:
+      - --disable-tests
+      - --disable-gtk2
+      - --disable-gtk3
+      - --enable-gtk4
+      - --disable-xim
+      - --disable-wayland
+      - --disable-appindicator
+      - --disable-introspection
+      - --disable-gtk-doc
+      - --disable-memconf
+      - --disable-dconf
+      - --disable-systemd-services
+      - --disable-systemd
+      - --disable-python2
+      - --disable-setup
+      - --with-python=python3
+      - --disable-python-library
+      - --enable-key-snooper
+      - --enable-surrounding-text
+      - --disable-ui
+      - --disable-engine
+      - --disable-libnotify
+      - --disable-emoji-dict
+      - --disable-unicode-dict
+      - --disable-vala
+      - --with-gtk3-im-module-dir=${FLATPAK_DEST}/lib/gtkmodules/3.0.0/immodules
+      - --with-gtk4-im-module-dir=${FLATPAK_DEST}/lib/gtkmodules/4.0.0/immodules
+    sources:
+      - type: archive
+        url: https://github.com/ibus/ibus/releases/download/1.5.27/ibus-1.5.27.tar.gz
+        sha256: 6efbda5adb96f607cf7108d1e270962c0729a59c9ea6d58eea2dde0e3cbb97df
+        x-checker-data:
+          type: anitya
+          project-id: 1352
+          stable-only: true
+          url-template: https://github.com/ibus/ibus/releases/download/$version/ibus-$version.tar.gz
+      # alternative for cleanup, only build libibus and im module
+      #- type: shell
+      #  commands:
+      #    - sed '/^AM_CONDITIONAL.*ENABLE_DAEMON/ s/true/false/' -i configure.ac
+      #    - sed '/^SUBDIRS/,/$(NULL)/ s/data\|docs\|ibus\|portal\|tools\|util//' -i
+      #      Makefile.am
+    cleanup:
+      - /bin
+      - /include
+      - /lib/pkgconfig
+      - /libexec
+      # keep /share/locale
+      - /share/bash-completion
+      - /share/dbus-1
+      - /share/gettext
+      - /share/gtk-doc
+      - /share/ibus
+      - /share/icons
+      - /share/man
+      - '*.la'
 
   - name: krb5
     subdir: src
