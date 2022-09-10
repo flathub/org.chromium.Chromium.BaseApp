@@ -23,34 +23,6 @@ modules:
         url: https://download.gnome.org/sources/libsecret/0.19/libsecret-0.19.1.tar.xz
         sha256: 8583e10179456ae2c83075d95455f156dc08db6278b32bf4bd61819335a30e3a
 
-  - name: gtk-cups-backend
-    buildsystem: meson
-    make-args: [modules/printbackends/libprintbackend-cups.so]
-    no-make-install: true
-    post-install:
-      - install -Dm 755 modules/printbackends/libprintbackend-cups.so -t /app/lib/gtkmodules/3.0.0/printbackends/
-    sources:
-      - type: archive
-        url: https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.34.tar.xz
-        sha256: dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec
-        x-checker-data:
-          type: gnome
-          name: gtk+
-          stable-only: true
-          versions:
-            <: '3.89'
-      # From https://gitlab.gnome.org/GNOME/gnome-build-meta/-/blob/master/files/gtk3-werror.patch
-      - type: patch
-        path: gtk3-werror.patch
-
-  - name: gtk-settings
-    buildsystem: simple
-    build-commands:
-      - install -Dm 644 gtk-settings.ini /app/etc/xdg/gtk-3.0/settings.ini
-    sources:
-      - type: file
-        path: gtk-settings.ini
-
   - name: krb5
     subdir: src
     config-opts:
