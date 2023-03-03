@@ -31,8 +31,8 @@ modules:
       - install -Dm 755 modules/printbackends/libprintbackend-cups.so -t /app/lib/gtkmodules/3.0.0/printbackends/
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.34.tar.xz
-        sha256: dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec
+        url: https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.37.tar.xz
+        sha256: 6745f0b4c053794151fd0f0e2474b077cccff5f83e9dd1bf3d39fe9fe5fb7f57
         x-checker-data:
           type: gnome
           name: gtk+
@@ -60,8 +60,8 @@ modules:
       - --disable-rpath
     sources:
       - type: archive
-        url: https://github.com/krb5/krb5/archive/refs/tags/krb5-1.20-final.tar.gz
-        sha256: cbbf7ff2fb25d44cf3ed6fee120c073cd291af2bdcc3f466433f0482e238fb59
+        url: https://github.com/krb5/krb5/archive/refs/tags/krb5-1.20.1-final.tar.gz
+        sha256: ec3861c3bec29aa8da9281953c680edfdab1754d1b1db8761c1d824e4b25496a
         x-checker-data:
           type: anitya
           project-id: 13287
@@ -102,8 +102,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/refi64/cobalt
-        tag: v2022.03
-        commit: fccaada69563fe8e1055e825efeab1f399f50665
+        tag: v2023.03
+        commit: 99fd12a318acd3d169ab491a051353258fd0e72a
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$
