@@ -31,8 +31,8 @@ modules:
       - install -Dm 755 modules/printbackends/libprintbackend-cups.so -t /app/lib/gtkmodules/3.0.0/printbackends/
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.34.tar.xz
-        sha256: dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec
+        url: https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.38.tar.xz
+        sha256: ce11decf018b25bdd8505544a4f87242854ec88be054d9ade5f3a20444dd8ee7
         x-checker-data:
           type: gnome
           name: gtk+
@@ -102,8 +102,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/refi64/cobalt
-        tag: v2022.03
-        commit: fccaada69563fe8e1055e825efeab1f399f50665
+        tag: v2023.03
+        commit: 99fd12a318acd3d169ab491a051353258fd0e72a
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$
