@@ -17,9 +17,8 @@ sources:
     path: patches/libunity/libunity-7.1.4-vala-053.patch
 cleanup:
   - /bin
-  - /share/unity
-  - /share/glib-2.0
-  - /share/unity-scopes
+  - /share
+  - /include
 modules:
   - name: gnome-common
     buildsystem: autotools
@@ -66,6 +65,8 @@ modules:
       - type: patch
         path: patches/dee/dee-1.2.7-gcc6-fixes.patch
     cleanup:
+      - /include
+      - /share
       - /bin
 
   - name: libdbusmenu-glib
@@ -90,3 +91,7 @@ modules:
 
       - type: patch
         path: patches/libdbusmenu-glib/no-Werror.patch
+    cleanup:
+      - /include
+      - /libexec
+      - /share
