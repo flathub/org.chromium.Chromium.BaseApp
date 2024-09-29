@@ -9,7 +9,7 @@ modules:
     buildsystem: meson
     config-opts:
       - -Dmanpage=false
-      - -Dcrypto=gnutls
+      - -Dcrypto=disabled
       - -Dvapi=false
       - -Dgtk_doc=false
       - -Dintrospection=false
