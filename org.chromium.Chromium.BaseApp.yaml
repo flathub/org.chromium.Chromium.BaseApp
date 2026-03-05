@@ -4,7 +4,11 @@ runtime: org.freedesktop.Platform
 runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 separate-locales: false
+cleanup:
+  - /include
+  - /lib/pkgconfig
 modules:
+
   - name: libsecret
     buildsystem: meson
     config-opts:
@@ -16,13 +20,11 @@ modules:
       - -Dbash_completion=disabled
     cleanup:
       - /bin
-      - /include
-      - /lib/pkgconfig
       - /share/man
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/libsecret/0.21/libsecret-0.21.4.tar.xz
-        sha256: 163d08d783be6d4ab9a979ceb5a4fecbc1d9660d3c34168c581301cd53912b20
+        url: https://download.gnome.org/sources/libsecret/0.21/libsecret-0.21.7.tar.xz
+        sha256: 6b452e4750590a2b5617adc40026f28d2f4903de15f1250e1d1c40bfd68ed55e
 
   - name: krb5
     subdir: src
@@ -46,7 +48,6 @@ modules:
           - autoreconf -si
     cleanup:
       - /bin
-      - /lib/pkgconfig
       - /share/et
       - /share/examples
       - /share/man
