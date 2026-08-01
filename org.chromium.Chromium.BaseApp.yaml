@@ -4,9 +4,6 @@ runtime: org.freedesktop.Platform
 runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 separate-locales: false
-cleanup:
-  - /include
-  - /lib/pkgconfig
 modules:
 
   - name: libsecret
@@ -20,6 +17,8 @@ modules:
       - -Dbash_completion=disabled
     cleanup:
       - /bin
+      - /include
+      - /lib/pkgconfig
       - /share/man
     sources:
       - type: archive
@@ -48,6 +47,7 @@ modules:
           - autoreconf -si
     cleanup:
       - /bin
+      - /lib/pkgconfig
       - /share/et
       - /share/examples
       - /share/man
