@@ -47,7 +47,6 @@ modules:
           - autoreconf -si
     cleanup:
       - /bin
-      - /lib/pkgconfig
       - /share/et
       - /share/examples
       - /share/man
