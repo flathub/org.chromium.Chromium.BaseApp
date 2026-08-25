@@ -59,6 +59,51 @@ modules:
       - type: file
         path: krb5.conf
 
+  - name: qt6-base
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DINSTALL_ARCHDATADIR=lib/qt6
+      - -DQT_DISABLE_RPATH=ON
+      - -DBUILD_WITH_PCH=FALSE
+      - -DQT_FEATURE_glibc_fortify_source=OFF # The SDK already defines _FORTIFY_SOURCE=3, suppress warnings about redefinition
+      - -DQT_FEATURE_concurrent=OFF   # libQtConcurrent.so
+      - -DQT_FEATURE_eglfs=OFF        # libQt6EglFS*.so, plugins/egldeviceintegrations/, plugins/platforms/libqeglfs.so
+      - -DQT_FEATURE_evdev=OFF        # plugins/generic/libqevdev*.so
+      - -DQT_FEATURE_linuxfb=OFF      # plugins/platforms/libqlinuxfb.so
+      - -DQT_FEATURE_network=OFF      # libQt6Network.so, plugins/networkinformation/, plugins/tls/, plugins/platforms/libqvnc.so
+      - -DQT_FEATURE_printsupport=OFF # libQt6PrintSupport.so, plugins/printsupport/
+      - -DQT_FEATURE_sql=OFF          # libQt6Sql.so, plugins/sqldrivers/
+      - -DQT_FEATURE_testlib=OFF      # libQt6Test.so
+      - -DQT_FEATURE_vkkhrdisplay=OFF # plugins/platforms/libqvkkhrdisplay.so
+      - -DQT_FEATURE_xml=OFF          # libQt6Xml.so
+    post-install:
+      - cp ${FLATPAK_BUILDER_BUILDDIR}/LICENSES/* ${FLATPAK_DEST}/share/licenses/${FLATPAK_ID}/qt6-base/
+    cleanup:
+      - '*.a'
+      - '*.prl'
+      - /bin
+      - /doc
+      - /include
+      - /lib/cmake
+      - /lib/pkgconfig
+      - /lib/qt6/libexec
+      - /lib/qt6/metatypes
+      - /lib/qt6/modules
+      - /lib/qt6/sbom
+      - /mkspecs
+      - /share/qt6
+    sources:
+      - type: archive
+        url: https://download.qt.io/official_releases/qt/6.11/6.11.2/submodules/qtbase-everywhere-src-6.11.2.tar.xz
+        sha256: 5b2e00eccaf5a4d8c14134ffa0ea8dfd0a35ae1ffc7f8d87fa4305a1ed23cf22
+        x-checker-data:
+          type: anitya
+          project-id: 7927
+          stable-only: true
+          url-template: https://download.qt.io/official_releases/qt/$major.$minor/$version/submodules/qtbase-everywhere-src-$version.tar.xz
+
   - name: flextop
     buildsystem: meson
     sources:
