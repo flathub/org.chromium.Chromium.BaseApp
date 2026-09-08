@@ -1,7 +1,7 @@
 id: org.chromium.Chromium.BaseApp
-branch: '25.08'
+branch: '26.08'
 runtime: org.freedesktop.Platform
-runtime-version: '25.08'
+runtime-version: '26.08'
 sdk: org.freedesktop.Sdk
 separate-locales: false
 modules:
@@ -45,6 +45,8 @@ modules:
         dest: src
         commands:
           - autoreconf -si
+      - type: patch
+        path: krb5-fix.patch
     cleanup:
       - /bin
       - /share/et
