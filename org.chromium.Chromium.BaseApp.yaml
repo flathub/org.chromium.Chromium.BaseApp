@@ -42,9 +42,8 @@ modules:
           stable-only: true
           url-template: https://github.com/krb5/krb5/archive/refs/tags/krb5-$version.tar.gz
       - type: shell
-        dest: src
         commands:
-          - autoreconf -si
+          - cd src && autoreconf -si
       - type: patch
         path: krb5-fix.patch
     cleanup:
