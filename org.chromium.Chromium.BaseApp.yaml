@@ -41,8 +41,6 @@ modules:
           project-id: 13287
           stable-only: true
           url-template: https://kerberos.org/dist/krb5/${version0}.${version1}/krb5-${version0}.${version1}.${version2}.tar.gz
-      - type: patch
-        path: krb5-fix.patch
     cleanup:
       - /bin
       - /share/et
