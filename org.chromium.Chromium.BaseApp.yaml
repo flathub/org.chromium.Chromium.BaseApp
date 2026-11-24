@@ -34,8 +34,8 @@ modules:
       - --disable-rpath
     sources:
       - type: archive
-        url: https://kerberos.org/dist/krb5/1.22/krb5-1.22.2.tar.gz
-        sha256: 3243ffbc8ea4d4ac22ddc7dd2a1dc54c57874c40648b60ff97009763554eaf13
+        url: https://kerberos.org/dist/krb5/1.22/krb5-1.22.3.tar.gz
+        sha256: fe90af8441ad9fa9b064b8e53077cefb782a96f8a68276b031dc54af1789ff0b
         x-checker-data:
           type: anitya
           project-id: 13287
@@ -62,8 +62,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/refi64/flextop
-        tag: v2022.03
-        commit: 83c73e435630b94a6f44abe67cb268eae5b229b4
+        tag: v2026.11
+        commit: 4b7fca2fecdd6794eaa19dfd157fc0bab821a58c
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$
@@ -73,8 +73,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/refi64/cobalt
-        tag: v2024.10
-        commit: b56afa0d44121975d69b8aa1b366e381be6839a0
+        tag: v2026.11
+        commit: 07d1b3882b12160c7da8335896a856a126bbe0b8
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$
